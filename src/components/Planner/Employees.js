@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Consumer } from '../context';
+import { Consumer } from '../../context';
 
 export default class Employees extends Component {
   render() {
@@ -7,6 +7,7 @@ export default class Employees extends Component {
       <Consumer>
         {value => {
           const { planner } = value;
+          console.log('rendering employees');
           return (
             <div className="emps-table">
               {planner.map(val => (

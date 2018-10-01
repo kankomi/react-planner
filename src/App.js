@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Planner from './components/Planner';
+import Planner from './components/Planner/Planner';
 import Provider from './context';
 
 class App extends Component {

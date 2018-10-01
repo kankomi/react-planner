@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Calendar from './Calendar';
-import './Planner.css';
+import Calendar from './Calendar/Calendar';
+import './css/Planner.css';
 import Employees from './Employees';
 
 export default class Planner extends Component {
@@ -8,7 +8,11 @@ export default class Planner extends Component {
     return (
       <div className="planner">
         <Employees />
-        <Calendar year={this.props.year} locale={this.props.locale} />
+        <Calendar
+          startDate="2018-01-01"
+          endDate="2018-05-31"
+          locale={this.props.locale}
+        />
       </div>
     );
   }
