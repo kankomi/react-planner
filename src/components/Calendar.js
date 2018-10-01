@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './Calendar.css';
 import moment from 'moment';
 import 'moment/locale/de';
-// import 'moment/src/locale/de';
+// import 'moment/min/moment-with-locales';
 
 import { workdaysInMonth } from './DateHelper';
 import business from 'moment-business';
@@ -38,42 +38,35 @@ class Day extends Component {
 }
 
 class Calendar extends Component {
-  constructor() {
-    super();
-    moment.locale('de');
+  constructor(props) {
+    super(props);
+
+    if (this.props.locale) {
+      moment.locale(this.props.locale);
+    }
+
     this.date = moment();
     this.date.date(1);
     this.date.month(0);
-    this.date.year(2019);
 
-    this.months = [];
+    if (this.props.year) {
+      this.date.year(parseInt(this.props.year, 10));
+    }
 
+    this.months = this.generateMonths();
+  }
+
+  generateMonths() {
+    let months = [];
     for (let i = 0; i < 12; i++) {
       let date = moment().year(this.date.year());
-      date = date.locale('de');
 
-      this.months.push({
+      months.push({
         name: date.month(i).format('MMMM'),
         days: workdaysInMonth(i, this.date.year())
       });
     }
-
-    // this.months = [
-    //   { name: 'Januar', days: workdaysInMonth(0, this.date.get('year')) },
-    //   { name: 'Februar', days: workdaysInMonth(1, this.date.get('year')) },
-    //   { name: 'März', days: workdaysInMonth(2, this.date.get('year')) },
-    //   { name: 'April', days: workdaysInMonth(3, this.date.get('year')) },
-    //   { name: 'Mai', days: workdaysInMonth(4, this.date.get('year')) },
-    //   { name: 'Juni', days: workdaysInMonth(5, this.date.get('year')) },
-    //   { name: 'Juli', days: workdaysInMonth(6, this.date.get('year')) },
-    //   { name: 'August', days: workdaysInMonth(7, this.date.get('year')) },
-    //   { name: 'September', days: workdaysInMonth(8, this.date.get('year')) },
-    //   { name: 'Oktober', days: workdaysInMonth(9, this.date.get('year')) },
-    //   { name: 'November', days: workdaysInMonth(10, this.date.get('year')) },
-    //   { name: 'Dezember', days: workdaysInMonth(11, this.date.get('year')) }
-    // ];
-
-    this.dows = ['Mo', 'Di', 'Mi', 'Do', 'Fr'];
+    return months;
   }
 
   renderMonths() {
@@ -103,7 +96,7 @@ class Calendar extends Component {
     let idx = 0;
     while (date.year() === this.date.year()) {
       if (business.isWeekDay(date)) {
-        dow.push(<DOW key={idx++} value={this.dows[date.day() - 1]} />);
+        dow.push(<DOW key={idx++} value={date.format('dd')} />);
       }
 
       date.add(1, 'd');
