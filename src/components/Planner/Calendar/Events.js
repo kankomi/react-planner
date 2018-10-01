@@ -8,22 +8,82 @@ class Event extends Component {
   constructor(props) {
     super(props);
     this.type = '';
-    this.shouldUpdate = false;
   }
+
   shouldComponentUpdate(nextProps, nextState) {
-    return nextState !== null;
+    return nextState !== null && nextState.type !== this.type;
   }
-  clickHandler = dispatch => {
-    let type = 'G';
-    if (this.type !== '') {
-      type = '';
+
+  handleSetType(state) {
+    const { dispatch } = state;
+    let type = state.selectedType;
+    if (state.events.dragEvent.active) {
+      type = state.events.dragEvent.type;
     }
+
+    if (type === '') {
+      dispatch({
+        type: 'DELETE_EVENT',
+        payload: {
+          userid: this.props.userid,
+          date: this.props.date
+        }
+      });
+    } else {
+      dispatch({
+        type: 'SET_EVENT',
+        payload: {
+          userid: this.props.userid,
+          date: this.props.date,
+          type: type
+        }
+      });
+    }
+    this.type = type;
+  }
+  mouseUpHandler = state => {
+    const { dispatch } = state;
+    if (state.events.dragEvent.active) {
+      dispatch({ type: 'STOP_DRAG' });
+      return;
+    }
+
+    this.handleSetType(state);
+  };
+
+  mouseDownHandler = state => {
+    let type = state.selectedType;
+    const { dispatch } = state;
+
+    dispatch({
+      type: 'START_DRAG',
+      payload: {
+        userid: this.props.userid,
+        date: this.props.date,
+        type: type
+      }
+    });
     dispatch({
       type: 'SET_EVENT',
-      payload: { userid: this.props.userid, date: this.props.date, type: type }
+      payload: {
+        userid: this.props.userid,
+        date: this.props.date,
+        type: type
+      }
     });
-    this.shouldUpdate = false;
-    this.setState({ type: type });
+  };
+
+  mouseEnterHandler = state => {
+    const { dragEvent } = state.events;
+
+    if (!dragEvent.active || dragEvent.userid !== this.props.userid) {
+      return;
+    }
+
+    this.type = dragEvent.type;
+    this.setState({ type: dragEvent.type });
+
+    this.handleSetType(state, dragEvent.type);
   };
 
   getEvent(state) {
@@ -52,7 +112,9 @@ class Event extends Component {
             <div
               className={'event ' + this.type.toLowerCase()}
               style={{ gridRowStart: this.props.row }}
-              onClick={this.clickHandler.bind(this, value.dispatch)}
+              onMouseUp={this.mouseUpHandler.bind(this, value)}
+              onMouseDown={this.mouseDownHandler.bind(this, value)}
+              onMouseEnter={this.mouseEnterHandler.bind(this, value)}
             >
               {this.type}
             </div>
@@ -64,6 +126,10 @@ class Event extends Component {
 }
 
 export default class Events extends Component {
+  constructor(props) {
+    super(props);
+    this.startedDragging = false;
+  }
   renderEvents(events) {
     let days = [];
     let idx = 0;
@@ -90,6 +156,7 @@ export default class Events extends Component {
   }
 
   render() {
+    console.log('rendering events');
     return (
       <Consumer>
         {value => {

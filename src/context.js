@@ -3,53 +3,68 @@ import React, { Component } from 'react';
 const Context = React.createContext();
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'SET_EVENT':
+    case 'SET_TYPE': {
+      return { ...state, selectedType: action.payload };
+    }
+    case 'START_DRAG': {
+      const { dragEvent } = state.events;
+      dragEvent.active = true;
+      dragEvent.userid = action.payload.userid;
+      dragEvent.startDate = action.payload.date;
+      dragEvent.type = action.payload.type;
+      console.log(dragEvent);
+
+      return { ...state, dragEvent };
+    }
+    case 'STOP_DRAG': {
+      const { dragEvent } = state.events;
+      dragEvent.active = false;
+      dragEvent.userid = null;
+      return state;
+    }
+    case 'DELETE_EVENT': {
+      const { userid, date } = action.payload;
+      state.planner.forEach(user => {
+        if (user.id === userid) {
+          user.events = user.events.filter(event => event.date !== date);
+        }
+      });
+      return state;
+    }
+    case 'SET_EVENT': {
       const { userid, type, date } = action.payload;
       state.planner.forEach(user => {
         if (user.id === userid) {
-          console.log('setting type ' + type);
           let eventSet = false;
+
           user.events.forEach(event => {
             if (event.date === date) {
               event.type = type;
               eventSet = true;
             }
           });
+
           if (!eventSet) {
             user.events.push({ date: date, type: type });
           }
         }
       });
       return state;
-    //   return {
-    //     ...state,
-    //     planner: state.planner.map(user => {
-    //       if (user.id === userid) {
-    //         console.log('setting type ' + type);
-    //         user.
-    //         user.events = events;
-    //       }
-    //       return user;
-    //     })
-    //   };
-    case 'GET_EVENT':
-      console.log(action);
-      state.planner.forEach(user => {
-        if (user.id === action.payload.userid) {
-          user.events.forEach(event => {
-            if (event.date === action.payload.date) {
-              return event.type;
-            }
-          });
-        }
-      });
-      return '';
+    }
     default:
       return state;
   }
 };
 export default class Provider extends Component {
   state = {
+    events: {
+      dragEvent: {
+        active: false,
+        userid: null,
+        type: ''
+      }
+    },
+    selectedType: 'G',
     planner: [
       {
         id: 1,
