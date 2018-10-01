@@ -2,11 +2,11 @@
   display: block;
 }
 .calendar-table {
-  display: grid;
+  display: inline-grid;
   align-items: center;
   grid-gap: 0px;
-  position: absolute;
-  left: 201px;
+  /* position: absolute; */
+  /* left: 201px; */
 
   width: 800px;
   overflow-x: scroll;
@@ -69,9 +69,9 @@
 }
 
 .emps-table {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  position: absolute;
+  position: relative;
   top: 121px;
   width: 200px;
 }

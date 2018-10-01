@@ -9,8 +9,8 @@ export default class Planner extends Component {
       <div className="planner">
         <Employees />
         <Calendar
-          startDate="2018-01-01"
-          endDate="2018-05-31"
+          startDate={this.props.startDate}
+          endDate={this.props.endDate}
           locale={this.props.locale}
         />
       </div>
