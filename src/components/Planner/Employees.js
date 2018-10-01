@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Consumer } from '../../context';
 
 export default class Employees extends Component {
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return nextProps.endDate !== this.props.endDate;
+  // }
   render() {
     return (
       <Consumer>
         {value => {
           const { planner } = value;
-          console.log('rendering employees');
           return (
             <div className="emps-table">
               {planner.map(val => (

@@ -12,7 +12,6 @@ const reducer = (state, action) => {
       dragEvent.userid = action.payload.userid;
       dragEvent.startDate = action.payload.date;
       dragEvent.type = action.payload.type;
-      console.log(dragEvent);
 
       return { ...state, dragEvent };
     }

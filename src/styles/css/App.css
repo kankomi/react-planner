@@ -1,90 +1,91 @@
-.planner {
-  display: block;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
 }
-.calendar-table {
+
+.planner .calendar-table {
   display: inline-grid;
-  align-items: center;
   grid-gap: 0px;
   /* position: absolute; */
   /* left: 201px; */
-
-  width: 800px;
+  width: 900px;
   overflow-x: scroll;
+  text-align: center;
 }
-
-.month {
+.planner .calendar-table .month {
   grid-row-start: 1;
   border-top: 1px solid #ccc;
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   padding: 5px;
-  text-align: center;
+  font-weight: 700;
 }
-
-.week {
+.planner .calendar-table .week {
   grid-row-start: 2;
   grid-column: span 5;
   padding: 5px;
-  margin-top: -1px;
-
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  text-align: center;
 }
-.day {
-  grid-row-start: 4;
-  padding: 5px;
-  /* margin-top: -1px; */
-
-  border-left: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-}
-
-.dow {
+.planner .calendar-table .dow {
   grid-row-start: 3;
   padding: 8px;
-  width: 1.3rem;
-
+  width: 50px;
+  font-weight: 600;
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 }
-
-.event {
+.planner .calendar-table .day {
+  grid-row-start: 4;
+  padding: 8px;
+  width: 50px;
+  border-left: 1px solid #ccc;
+  border-bottom: 2px solid #7c7c7c;
+}
+.planner .calendar-table .event {
   padding: 5px;
-  min-height: 18px;
+  min-height: 35px;
+  width: 50px;
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   cursor: default;
   user-select: none;
 }
-
-.g {
+.planner .calendar-table .g {
   background-color: yellow;
 }
-.u {
+.planner .calendar-table .u {
   background-color: cyan;
 }
-
-.e {
+.planner .calendar-table .e {
   background-color: brown;
 }
-
-.emps-table {
+.planner .emps-table {
   display: inline-flex;
   flex-direction: column;
   position: relative;
-  top: 121px;
+  top: 153px;
   width: 200px;
 }
-
-.emps-table:nth-child(1) {
+.planner .emps-table :nth-child(1) {
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
 }
-.emps-table:first-child {
+.planner .emps-table :first-child {
   border-top: 1px solid #ccc;
 }
-
-.emps-col {
+.planner .emps-table .emps-col {
   border-bottom: 1px solid #ccc;
   padding: 5px;
 }
+
+.button-menu {
+  display: flex;
+}
+.button-menu button {
+  margin: 2px;
+}
+
+/*# sourceMappingURL=App.css.map */
