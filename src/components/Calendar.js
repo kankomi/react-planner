@@ -10,7 +10,10 @@ import business from 'moment-business';
 class Event extends Component {
   render() {
     return (
-      <div className="event" style={{ gridRowStart: this.props.row }}>
+      <div
+        className={'event ' + this.props.event.toLowerCase()}
+        style={{ gridRowStart: this.props.row }}
+      >
         {this.props.event || ''}
       </div>
     );
@@ -41,30 +44,8 @@ class DOW extends Component {
 }
 
 class Day extends Component {
-  // renderEvents() {
-  //   let ret = this.props.events.map(row => {
-  //     <div>
-  //       {row.map(event => {
-  //         if (event.date === this.props.date) {
-  //           console.log(event.type);
-  //           return <span>{event.type}</span>;
-  //         }
-  //       })}
-  //     </div>;
-  //   });
-
-  // console.log(ret);
-  //   return ret;
-  // }
   render() {
     return <div className="day">{this.props.day}</div>;
-    // return (
-    //   <div className="day">
-    //     {this.props.date.date()}
-    //     <div className="event">G</div>
-    //     <div className="event">E</div>
-    //   </div>
-    // );
   }
 }
 
@@ -150,16 +131,25 @@ class Calendar extends Component {
     return days;
   }
 
+  /**
+   * Mock function to get events.
+   *
+   * Should be server call here.
+   */
   getEvents() {
     let employees = ['Max', 'Susann', 'Peter', 'Sam'];
     let events = [];
+    let mockEvents = [' ', 'G', 'U', 'E'];
 
     employees.forEach(emp => {
       let date = moment(this.date);
       let row = [];
       while (date.year() === this.date.year()) {
         if (business.isWeekDay(date)) {
-          row.push({ date: date, event: 'G' });
+          row.push({
+            date: date,
+            event: mockEvents[Math.floor(Math.random() * 3)]
+          });
         }
 
         date.add(1, 'd');
@@ -170,7 +160,6 @@ class Calendar extends Component {
   }
 
   renderEvents() {
-    let date = moment(this.date);
     let days = [];
     let idx = 0;
     let events = this.getEvents();
