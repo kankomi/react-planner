@@ -8,13 +8,27 @@ import { workdaysInMonth } from './DateHelper';
 import business from 'moment-business';
 
 class Event extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { event: props.event };
+  }
+
+  clickHandler = e => {
+    if (this.state.event === ' ') {
+      this.setState(state => ({
+        event: 'G'
+      }));
+    }
+  };
   render() {
     return (
       <div
-        className={'event ' + this.props.event.toLowerCase()}
+        className={'event ' + this.state.event.toLowerCase()}
         style={{ gridRowStart: this.props.row }}
+        onClick={this.clickHandler}
       >
-        {this.props.event || ''}
+        {this.state.event || ''}
       </div>
     );
   }
@@ -148,7 +162,7 @@ class Calendar extends Component {
         if (business.isWeekDay(date)) {
           row.push({
             date: date,
-            event: mockEvents[Math.floor(Math.random() * 3)]
+            event: mockEvents[Math.floor(Math.random() * 4)]
           });
         }
 

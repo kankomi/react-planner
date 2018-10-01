@@ -50,6 +50,8 @@
   min-height: 18px;
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  cursor: default;
+  user-select: none;
 }
 
 .g {
