@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Button from './Button';
 
 export default class ButtonMenu extends Component {
-  state = { UBtn: false, GBtn: true, DeleteBtn: false };
+  state = { UBtn: false, GBtn: true, EBtn: false, DeleteBtn: false };
 
   setActive = name => {
     Object.keys(this.state).forEach(key => {
@@ -32,6 +32,14 @@ export default class ButtonMenu extends Component {
           onClick={this.setActive}
         >
           Gleitzeit
+        </Button>
+        <Button
+          name="EBtn"
+          value="E"
+          active={this.state.EBtn}
+          onClick={this.setActive}
+        >
+          Bereitschaft
         </Button>
         <Button
           name="DeleteBtn"

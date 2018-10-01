@@ -102,7 +102,6 @@ class Event extends Component {
   }
 
   render() {
-    console.log('rendering event');
     return (
       <Consumer>
         {value => {
@@ -156,7 +155,6 @@ export default class Events extends Component {
   }
 
   render() {
-    console.log('rendering events');
     return (
       <Consumer>
         {value => {

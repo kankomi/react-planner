@@ -1,4 +1,18 @@
-$cellSize: 50px;
+$g-color: rgba(238, 238, 63, 0.9);
+$u-color: rgba(66, 219, 219, 0.9);
+$e-color: rgba(156, 66, 66, 0.9);
+$table-border-color: #ccc;
+
+%cell {
+  border-left: 1px solid $table-border-color;
+  border-bottom: 1px solid $table-border-color;
+}
+
+%fixed-cell {
+  @extend %cell;
+
+  width: 50px;
+}
 
 body {
   margin: 0;
@@ -7,97 +21,95 @@ body {
 }
 
 .planner {
-  .calendar-table {
-    display: inline-grid;
-    // align-items: left;
-    grid-gap: 0px;
-    /* position: absolute; */
-    /* left: 201px; */
-    // grid-template-columns: 50px 1fr;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 
-    width: 900px;
-    overflow-x: scroll;
-    text-align: center;
-
-    .month {
-      grid-row-start: 1;
-      border-top: 1px solid #ccc;
-      border-left: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
-      padding: 5px;
-      font-weight: 700;
-    }
-
-    .week {
-      grid-row-start: 2;
-      grid-column: span 5;
-      padding: 5px;
-
-      border-left: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
-      text-align: center;
-    }
-
-    .dow {
-      grid-row-start: 3;
-      padding: 8px;
-      width: $cellSize;
-      font-weight: 600;
-
-      border-left: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .day {
-      grid-row-start: 4;
-      padding: 8px;
-      width: $cellSize;
-
-      border-left: 1px solid #ccc;
-      border-bottom: 2px solid rgb(124, 124, 124);
-    }
-
-    .event {
-      padding: 5px;
-      min-height: 35px;
-      width: $cellSize;
-
-      border-left: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
-      cursor: default;
-      user-select: none;
-    }
-
-    .g {
-      background-color: yellow;
-    }
-    .u {
-      background-color: cyan;
-    }
-    .e {
-      background-color: brown;
-    }
-  }
+  margin-bottom: 15px;
 
   .emps-table {
+    flex-grow: 0;
+    flex-shrink: 0;
+
     display: inline-flex;
     flex-direction: column;
     position: relative;
     top: 153px;
     width: 200px;
 
-    :nth-child(1) {
-      border-left: 1px solid #ccc;
-      border-right: 1px solid #ccc;
-    }
+    border-left: 1px solid $table-border-color;
+    // border-right: 1px solid $table-border-color;
 
     :first-child {
-      border-top: 1px solid #ccc;
+      border-top: 1px solid $table-border-color;
     }
 
     .emps-col {
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid $table-border-color;
       padding: 5px;
+    }
+  }
+
+  .calendar-table {
+    display: inline-grid;
+    grid-gap: 0px;
+
+    overflow-x: scroll;
+    text-align: center;
+    border-top: 1px solid $table-border-color;
+    border-right: 1px solid $table-border-color;
+    border-left: 1px solid $table-border-color;
+    // border-bottom: 1px solid $table-border-color;
+
+    .month {
+      @extend %cell;
+
+      grid-row-start: 1;
+      padding: 5px;
+      font-weight: 700;
+    }
+
+    .week {
+      @extend %cell;
+
+      grid-row-start: 2;
+      grid-column: span 5;
+      padding: 5px;
+      text-align: center;
+    }
+
+    .dow {
+      @extend %fixed-cell;
+
+      grid-row-start: 3;
+      padding: 8px;
+      font-weight: 600;
+    }
+
+    .day {
+      @extend %fixed-cell;
+
+      grid-row-start: 4;
+      padding: 8px;
+    }
+
+    .event {
+      @extend %fixed-cell;
+
+      padding: 5px;
+      min-height: 35px;
+      cursor: default;
+      user-select: none;
+    }
+
+    .g {
+      background-color: $g-color;
+    }
+    .u {
+      background-color: $u-color;
+    }
+    .e {
+      background-color: $e-color;
     }
   }
 }

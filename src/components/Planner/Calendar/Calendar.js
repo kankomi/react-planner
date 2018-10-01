@@ -55,7 +55,6 @@ class Calendar extends Component {
   }
 
   renderMonths() {
-    console.log('rendering months');
     return this.months.map((month, idx) => {
       return <Month key={idx} name={month.name} days={month.days} />;
     });

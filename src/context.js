@@ -100,6 +100,60 @@ export default class Provider extends Component {
             date: '05.02.2018'
           }
         ]
+      },
+      {
+        id: 3,
+        user: 'Peter',
+        events: [
+          {
+            type: 'G',
+            date: '01.02.2018'
+          },
+          {
+            type: 'E',
+            date: '02.02.2018'
+          },
+          {
+            type: 'U',
+            date: '05.02.2018'
+          }
+        ]
+      },
+      {
+        id: 4,
+        user: 'John',
+        events: [
+          {
+            type: 'G',
+            date: '01.02.2018'
+          },
+          {
+            type: 'E',
+            date: '02.02.2018'
+          },
+          {
+            type: 'U',
+            date: '05.02.2018'
+          }
+        ]
+      },
+      {
+        id: 5,
+        user: 'Sepp',
+        events: [
+          {
+            type: 'G',
+            date: '01.02.2018'
+          },
+          {
+            type: 'E',
+            date: '02.02.2018'
+          },
+          {
+            type: 'U',
+            date: '05.02.2018'
+          }
+        ]
       }
     ],
     dispatch: action => {

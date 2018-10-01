@@ -11,7 +11,6 @@ export default class Days extends Component {
     let date = moment(this.props.startDate);
     let days = [];
     let idx = 0;
-    console.log('rendering days');
     while (date.isSameOrBefore(this.props.endDate)) {
       if (business.isWeekDay(date)) {
         days.push(

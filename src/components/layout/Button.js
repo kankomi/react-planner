@@ -11,12 +11,14 @@ export default class Button extends Component {
       this.props.onClick(this.props.name);
     }
   };
+
   setIcon() {
     if (this.props.icon) {
       return <i className={'pr-1 fa fa-' + this.props.icon}> </i>;
     }
     return '';
   }
+
   render() {
     return (
       <Consumer>

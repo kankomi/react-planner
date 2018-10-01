@@ -10,12 +10,11 @@ export default class Weeks extends Component {
     let date = moment(this.props.startDate);
     let weeks = [];
     let lastWeek = 0;
-    console.log('rendering weeks');
     while (date.isSameOrBefore(this.props.endDate)) {
       if (lastWeek !== date.week()) {
         weeks.push(
           <div className="week" key={lastWeek}>
-            {date.week()}
+            W{date.week()}
           </div>
         );
         lastWeek = date.week();
