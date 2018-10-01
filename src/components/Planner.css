@@ -1,7 +1,5 @@
 .calendar-table {
   display: grid;
-  /* grid-template-columns: repeat(270, 50px); */
-  /* grid-template-rows: repeat(8, 30px); */
   align-items: center;
   grid-gap: 0px;
   position: absolute;
@@ -42,17 +40,13 @@
   grid-row-start: 3;
   padding: 8px;
   width: 1.3rem;
-  /* margin-top: -1px; */
 
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 }
 
 .event {
-  /* grid-row-start: 5; */
   padding: 5px;
-  /* margin-top: -1px; */
-  /* height: 28px; */
   min-height: 18px;
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
@@ -69,17 +63,12 @@
   background-color: brown;
 }
 
-.content {
-  width: 100px;
-}
-
 .emps-table {
   display: flex;
   flex-direction: column;
   position: absolute;
   top: 123px;
   width: 200px;
-  /* align-items: center; */
 }
 
 .emps-table:nth-child(1) {
@@ -92,11 +81,5 @@
 
 .emps-col {
   border-bottom: 1px solid #ccc;
-  /* height: 28px; */
   padding: 5px;
-}
-
-.centered {
-  display: table-cell;
-  vertical-align: middle;
 }
