@@ -33,12 +33,10 @@ body {
 
     display: inline-flex;
     flex-direction: column;
-    position: relative;
-    top: 153px;
+    padding-top: 152px;
     width: 200px;
 
     border-left: 1px solid $table-border-color;
-    // border-right: 1px solid $table-border-color;
 
     :first-child {
       border-top: 1px solid $table-border-color;
