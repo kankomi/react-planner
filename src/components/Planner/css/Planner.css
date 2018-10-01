@@ -1,3 +1,6 @@
+.planner {
+  display: block;
+}
 .calendar-table {
   display: grid;
   align-items: center;
