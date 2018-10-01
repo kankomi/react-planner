@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import 'moment/locale/de';
 // import 'moment/min/moment-with-locales';
+import { Consumer } from '../context';
 
 import { workdaysInMonth } from './DateHelper';
 import business from 'moment-business';
@@ -15,7 +16,7 @@ class Event extends Component {
   }
 
   clickHandler = e => {
-    if (this.state.event === ' ') {
+    if (this.state.event === '') {
       this.setState(state => ({
         event: 'G'
       }));
@@ -145,44 +146,27 @@ class Calendar extends Component {
     return days;
   }
 
-  /**
-   * Mock function to get events.
-   *
-   * Should be server call here.
-   */
-  getEvents() {
-    let employees = ['Max', 'Susann', 'Peter', 'Sam'];
-    let events = [];
-    let mockEvents = [' ', 'G', 'U', 'E'];
-
-    employees.forEach(emp => {
-      let date = moment(this.date);
-      let row = [];
-      while (date.year() === this.date.year()) {
-        if (business.isWeekDay(date)) {
-          row.push({
-            date: date,
-            event: mockEvents[Math.floor(Math.random() * 4)]
-          });
-        }
-
-        date.add(1, 'd');
-      }
-      events.push(row);
-    });
-    return events;
-  }
-
-  renderEvents() {
+  renderEvents(events) {
     let days = [];
     let idx = 0;
-    let events = this.getEvents();
     let row = 5; // starting at row 5
 
     events.forEach(employee => {
-      employee.forEach(data => {
-        days.push(<Event key={idx++} event={data.event} row={row} />);
-      });
+      let date = moment(this.date);
+      console.log(date.format());
+      while (date.year() === this.date.year()) {
+        if (business.isWeekDay(date)) {
+          let type = '';
+          employee.events.forEach(data => {
+            if (data.date === date.format('DD.MM.YYYY')) {
+              console.log(data.type);
+              type = data.type;
+            }
+          });
+          days.push(<Event key={idx++} event={type} row={row} />);
+        }
+        date.add(1, 'd');
+      }
       row++;
     });
     return days;
@@ -190,13 +174,19 @@ class Calendar extends Component {
 
   render() {
     return (
-      <div className="calendar-table">
-        {this.renderMonths()}
-        {this.renderWeeks()}
-        {this.renderDows()}
-        {this.renderDays()}
-        {this.renderEvents()}
-      </div>
+      <Consumer>
+        {value => {
+          return (
+            <div className="calendar-table">
+              {this.renderMonths()}
+              {this.renderWeeks()}
+              {this.renderDows()}
+              {this.renderDays()}
+              {this.renderEvents(value.planner)}
+            </div>
+          );
+        }}
+      </Consumer>
     );
   }
 }

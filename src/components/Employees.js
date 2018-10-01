@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
+import { Consumer } from '../context';
 
 export default class Employees extends Component {
-  constructor(props) {
-    super(props);
-
-    this.emps = ['Max', 'Susan'];
-  }
-
   render() {
     return (
-      <div className="emps-table">
-        <div className="emps-col">Susan</div>
-        <div className="emps-col">Max</div>
-        <div className="emps-col">Max</div>
-        <div className="emps-col">Max</div>
-      </div>
+      <Consumer>
+        {value => {
+          const { planner } = value;
+          return (
+            <div className="emps-table">
+              {planner.map(val => (
+                <div key={val.id} className="emps-col">
+                  {val.user}
+                </div>
+              ))}
+            </div>
+          );
+        }}
+      </Consumer>
     );
   }
 }
