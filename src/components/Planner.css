@@ -1,24 +1,18 @@
-.grid {
+.calendar-table {
   display: grid;
   /* grid-template-columns: repeat(270, 50px); */
   /* grid-template-rows: repeat(8, 30px); */
   align-items: center;
   grid-gap: 0px;
-}
+  position: absolute;
+  left: 201px;
 
-.span-30 {
-  grid-column: span 30;
-}
-.span-31 {
-  grid-column: span 31;
-}
-.span-28 {
-  grid-column: span 28;
+  width: 800px;
+  overflow-x: scroll;
 }
 
 .month {
   grid-row-start: 1;
-  /* grid-column: span 30; */
   border-top: 1px solid #ccc;
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
@@ -32,14 +26,13 @@
   padding: 5px;
   margin-top: -1px;
 
-  /* border-top: 1px solid #ccc; */
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 }
 .day {
   grid-row-start: 4;
   padding: 5px;
-  margin-top: -1px;
+  /* margin-top: -1px; */
 
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
@@ -49,21 +42,50 @@
   grid-row-start: 3;
   padding: 8px;
   width: 1.3rem;
-  margin-top: -1px;
+  /* margin-top: -1px; */
 
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 }
-.vac {
-  grid-row-start: 5;
-  height: 30px;
+
+.event {
+  /* grid-row-start: 5; */
+  padding: 5px;
+  /* margin-top: -1px; */
+  /* height: 28px; */
+
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 }
+
 .content {
   width: 100px;
 }
 
-.grid {
-  /* width: 100%; */
+.emps-table {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 121px;
+  width: 200px;
+  /* align-items: center; */
+}
+
+.emps-table:nth-child(1) {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+.emps-table:first-child {
+  border-top: 1px solid #ccc;
+}
+
+.emps-col {
+  border-bottom: 1px solid #ccc;
+  /* height: 28px; */
+  padding: 5px;
+}
+
+.centered {
+  display: table-cell;
+  vertical-align: middle;
 }

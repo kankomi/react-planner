@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 // import PropTypes from "prop-types";
-import './Calendar.css';
 import moment from 'moment';
 import 'moment/locale/de';
 // import 'moment/min/moment-with-locales';
 
 import { workdaysInMonth } from './DateHelper';
 import business from 'moment-business';
+
+class Event extends Component {
+  render() {
+    return (
+      <div className="event" style={{ gridRowStart: this.props.row }}>
+        {this.props.event || ''}
+      </div>
+    );
+  }
+}
 
 class Month extends Component {
   render() {
@@ -32,8 +41,30 @@ class DOW extends Component {
 }
 
 class Day extends Component {
+  // renderEvents() {
+  //   let ret = this.props.events.map(row => {
+  //     <div>
+  //       {row.map(event => {
+  //         if (event.date === this.props.date) {
+  //           console.log(event.type);
+  //           return <span>{event.type}</span>;
+  //         }
+  //       })}
+  //     </div>;
+  //   });
+
+  // console.log(ret);
+  //   return ret;
+  // }
   render() {
-    return <div className="day">{this.props.value}</div>;
+    return <div className="day">{this.props.day}</div>;
+    // return (
+    //   <div className="day">
+    //     {this.props.date.date()}
+    //     <div className="event">G</div>
+    //     <div className="event">E</div>
+    //   </div>
+    // );
   }
 }
 
@@ -108,9 +139,10 @@ class Calendar extends Component {
     let date = moment(this.date);
     let days = [];
     let idx = 0;
+
     while (date.year() === this.date.year()) {
       if (business.isWeekDay(date)) {
-        days.push(<Day key={idx++} value={date.date()} />);
+        days.push(<Day key={idx++} day={date.date()} />);
       }
 
       date.add(1, 'd');
@@ -118,13 +150,49 @@ class Calendar extends Component {
     return days;
   }
 
+  getEvents() {
+    let employees = ['Max', 'Susann', 'Peter', 'Sam'];
+    let events = [];
+
+    employees.forEach(emp => {
+      let date = moment(this.date);
+      let row = [];
+      while (date.year() === this.date.year()) {
+        if (business.isWeekDay(date)) {
+          row.push({ date: date, event: 'G' });
+        }
+
+        date.add(1, 'd');
+      }
+      events.push(row);
+    });
+    return events;
+  }
+
+  renderEvents() {
+    let date = moment(this.date);
+    let days = [];
+    let idx = 0;
+    let events = this.getEvents();
+    let row = 5; // starting at row 5
+
+    events.forEach(employee => {
+      employee.forEach(data => {
+        days.push(<Event key={idx++} event={data.event} row={row} />);
+      });
+      row++;
+    });
+    return days;
+  }
+
   render() {
     return (
-      <div className="grid">
+      <div className="calendar-table">
         {this.renderMonths()}
         {this.renderWeeks()}
         {this.renderDows()}
         {this.renderDays()}
+        {this.renderEvents()}
       </div>
     );
   }
