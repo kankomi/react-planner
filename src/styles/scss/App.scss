@@ -8,7 +8,10 @@ $table-border-color: #ccc;
 $dark-fg: #212529;
 $light-fg: #fcfcfc;
 
+/* Variables - END */
+
 /* Functions */
+
 %cell {
   border-left: 1px solid $table-border-color;
   border-bottom: 1px solid $table-border-color;
@@ -22,11 +25,12 @@ $light-fg: #fcfcfc;
 
 @function autoTextColor($color) {
   @if (lightness($color) > 50) {
-    @return $dark-fg; // Lighter backgorund, return dark color
+    @return $dark-fg; // Lighter background, return dark color
   } @else {
     @return $light-fg; // Darker background, return light color
   }
 }
+/* Functions - END */
 
 /* Style */
 
@@ -49,18 +53,23 @@ body {
 
     display: inline-flex;
     flex-direction: column;
-    padding-top: 152px;
+    padding-top: 151px;
     width: 200px;
 
     border-left: 1px solid $table-border-color;
-
-    :first-child {
-      border-top: 1px solid $table-border-color;
-    }
+    border-top: 1px solid $table-border-color;
+    border-bottom: 1px solid $table-border-color;
 
     .emps-col {
       border-bottom: 1px solid $table-border-color;
       padding: 5px;
+
+      &:first-child {
+        border-top: 1px solid $table-border-color;
+      }
+      &:last-child {
+        border-bottom: none;
+      }
     }
   }
 
@@ -73,7 +82,6 @@ body {
     border-top: 1px solid $table-border-color;
     border-right: 1px solid $table-border-color;
     border-left: 1px solid $table-border-color;
-    // border-bottom: 1px solid $table-border-color;
 
     .month {
       @extend %cell;
@@ -133,6 +141,11 @@ body {
 
   button {
     margin: 2px;
+
+    &.active {
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      border-color: rgba(0, 123, 255, 0.25);
+    }
   }
 
   .btn-g {

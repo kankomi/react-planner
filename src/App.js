@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <Provider>
-        <div className="App">
+        <div className="App container mt-2">
           <Planner startDate="2018-01-01" endDate="2018-05-31" locale="de" />
           <Planner startDate="2018-01-01" endDate="2018-01-31" locale="en" />
 

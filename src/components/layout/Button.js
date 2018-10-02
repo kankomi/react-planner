@@ -26,8 +26,7 @@ export default class Button extends Component {
           return (
             <button
               className={classNames('btn', this.props.className, {
-                'btn-primary': this.props.active,
-                'btn-secondary': !this.props.active
+                active: this.props.active
               })}
               type="button"
               onClick={this.onClickHandler.bind(this, state.dispatch)}
