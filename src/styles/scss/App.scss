@@ -1,8 +1,14 @@
+/* Variables */
+
 $g-color: rgba(238, 238, 63, 0.9);
 $u-color: rgba(66, 219, 219, 0.9);
 $e-color: rgba(156, 66, 66, 0.9);
 $table-border-color: #ccc;
 
+$dark-fg: #212529;
+$light-fg: #fcfcfc;
+
+/* Functions */
 %cell {
   border-left: 1px solid $table-border-color;
   border-bottom: 1px solid $table-border-color;
@@ -13,6 +19,16 @@ $table-border-color: #ccc;
 
   width: 50px;
 }
+
+@function autoTextColor($color) {
+  @if (lightness($color) > 50) {
+    @return $dark-fg; // Lighter backgorund, return dark color
+  } @else {
+    @return $light-fg; // Darker background, return light color
+  }
+}
+
+/* Style */
 
 body {
   margin: 0;
@@ -117,5 +133,23 @@ body {
 
   button {
     margin: 2px;
+  }
+
+  .btn-g {
+    background-color: $g-color;
+    color: autoTextColor($g-color);
+    border-color: darken($g-color, 20%);
+  }
+
+  .btn-e {
+    background-color: $e-color;
+    color: autoTextColor($e-color);
+    border-color: darken($e-color, 20%);
+  }
+
+  .btn-u {
+    background-color: $u-color;
+    color: autoTextColor($u-color);
+    border-color: darken($u-color, 20%);
   }
 }

@@ -18,22 +18,27 @@ export default class ButtonMenu extends Component {
     return (
       <div className="button-menu mt-2">
         <Button
+          className="btn-u"
           value="U"
           name="UBtn"
           active={this.state.UBtn}
           onClick={this.setActive}
         >
-          Urlaub
+          <b>U</b>
+          rlaub
         </Button>
         <Button
+          className="btn-g"
           name="GBtn"
           value="G"
           active={this.state.GBtn}
           onClick={this.setActive}
         >
-          Gleitzeit
+          <b>G</b>
+          leitzeit
         </Button>
         <Button
+          className="btn-e"
           name="EBtn"
           value="E"
           active={this.state.EBtn}

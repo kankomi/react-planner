@@ -25,7 +25,7 @@ export default class Button extends Component {
         {state => {
           return (
             <button
-              className={classNames('btn', {
+              className={classNames('btn', this.props.className, {
                 'btn-primary': this.props.active,
                 'btn-secondary': !this.props.active
               })}
