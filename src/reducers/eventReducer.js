@@ -1,104 +1,13 @@
 import { GET_EVENTS, DELETE_EVENT, SET_EVENT } from '../actions/types';
 
 const initalState = {
-  events: [
-    {
-      id: 1,
-      user: 'Max',
-      events: [
-        {
-          type: 'G',
-          date: '01.01.2018'
-        },
-        {
-          type: 'E',
-          date: '02.01.2018'
-        },
-        {
-          type: 'U',
-          date: '03.01.2018'
-        }
-      ]
-    },
-    {
-      id: 2,
-      user: 'Susann',
-      events: [
-        {
-          type: 'G',
-          date: '01.02.2018'
-        },
-        {
-          type: 'E',
-          date: '02.02.2018'
-        },
-        {
-          type: 'U',
-          date: '05.02.2018'
-        }
-      ]
-    },
-    {
-      id: 3,
-      user: 'Peter',
-      events: [
-        {
-          type: 'G',
-          date: '01.02.2018'
-        },
-        {
-          type: 'E',
-          date: '02.02.2018'
-        },
-        {
-          type: 'U',
-          date: '05.02.2018'
-        }
-      ]
-    },
-    {
-      id: 4,
-      user: 'John',
-      events: [
-        {
-          type: 'G',
-          date: '01.02.2018'
-        },
-        {
-          type: 'E',
-          date: '02.02.2018'
-        },
-        {
-          type: 'U',
-          date: '05.02.2018'
-        }
-      ]
-    },
-    {
-      id: 5,
-      user: 'Sepp',
-      events: [
-        {
-          type: 'G',
-          date: '01.02.2018'
-        },
-        {
-          type: 'E',
-          date: '02.02.2018'
-        },
-        {
-          type: 'U',
-          date: '05.02.2018'
-        }
-      ]
-    }
-  ]
+  events: []
 };
 
 export default function(state = initalState, action) {
   switch (action.type) {
     case GET_EVENTS: {
-      return { ...state };
+      return { ...state, events: action.payload };
     }
     case DELETE_EVENT: {
       const { userid, date } = action.payload;

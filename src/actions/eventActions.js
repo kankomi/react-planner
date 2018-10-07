@@ -1,9 +1,13 @@
 import { GET_EVENTS, DELETE_EVENT, SET_EVENT } from './types';
+import axios from 'axios';
 
-export const getEvents = () => {
-  return {
-    type: GET_EVENTS
-  };
+export const getEvents = () => async dispatch => {
+  const res = await axios.get('/testdata.json');
+  console.log(res.data);
+  dispatch({
+    type: GET_EVENTS,
+    payload: res.data.events
+  });
 };
 export const deleteEvent = (userid, date) => {
   return { type: DELETE_EVENT, payload: { userid: userid, date: date } };
