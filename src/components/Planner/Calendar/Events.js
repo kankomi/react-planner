@@ -4,8 +4,8 @@ import business from 'moment-business';
 import { connect } from 'react-redux';
 // import { Consumer } from '../../../context';
 import PropTypes from 'prop-types';
-import { GET_EVENTS } from '../../../actions/types';
 import Event from './Event';
+import { getEvents } from '../../../actions/eventActions';
 
 class Events extends Component {
   startedDragging = false;
@@ -47,13 +47,9 @@ const mapStateToProps = state => ({
   events: state.event.events
 });
 
-const mapDispatchToProps = dispatch => ({
-  getEvents: () => dispatch({ type: GET_EVENTS })
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { getEvents }
 )(Events);
 
 Events.propTypes = {

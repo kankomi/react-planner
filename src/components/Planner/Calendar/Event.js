@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setEvent, deleteEvent } from '../../../actions/eventActions';
 import {
-  GET_EVENTS,
-  SET_SELECTED_EVENT_TYPE,
-  START_DRAG,
-  STOP_DRAG,
-  DELETE_EVENT,
-  SET_EVENT
-} from '../../../actions/types';
+  setSelectedEventType,
+  startDrag,
+  stopDrag
+} from '../../../actions/dragDropActions';
 
 class Event extends Component {
   constructor(props) {
@@ -129,19 +127,9 @@ const mapStateToProps = state => ({
   dragDrop: state.dragDrop
 });
 
-const mapDispatchToProps = dispatch => ({
-  getEvents: () => dispatch({ type: GET_EVENTS }),
-  setSelectedEventType: payload =>
-    dispatch({ type: SET_SELECTED_EVENT_TYPE, ...payload }),
-  startDrag: payload => dispatch({ type: START_DRAG, ...payload }),
-  stopDrag: () => dispatch({ type: STOP_DRAG }),
-  deleteEvent: payload => dispatch({ type: DELETE_EVENT, ...payload }),
-  setEvent: payload => dispatch({ type: SET_EVENT, ...payload })
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { deleteEvent, setEvent, setSelectedEventType, startDrag, stopDrag }
 )(Event);
 
 Event.propTypes = {
