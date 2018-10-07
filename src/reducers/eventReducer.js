@@ -102,13 +102,13 @@ export default function(state = initalState, action) {
     }
     case DELETE_EVENT: {
       const { userid, date } = action.payload;
-      let users = state.events.map(user => {
+      let events = state.events.map(user => {
         if (user.id === userid) {
           user.events = user.events.filter(event => event.date !== date);
         }
         return user;
       });
-      return { ...state, state: { planner: { ...users } } };
+      return { ...state, events: events };
     }
     case SET_EVENT: {
       const { userid, type, date } = action.payload;
