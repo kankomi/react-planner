@@ -5,9 +5,12 @@ export const getEvents = () => {
     type: GET_EVENTS
   };
 };
-export const deleteEvent = payload => {
-  return { type: DELETE_EVENT, ...payload };
+export const deleteEvent = (userid, date) => {
+  return { type: DELETE_EVENT, payload: { userid: userid, date: date } };
 };
-export const setEvent = payload => {
-  return { type: SET_EVENT, ...payload };
+export const setEvent = (userid, date, type) => {
+  return {
+    type: SET_EVENT,
+    payload: { userid: userid, type: type, date: date }
+  };
 };

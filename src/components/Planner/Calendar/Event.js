@@ -30,20 +30,9 @@ class Event extends Component {
 
     if (selectedType === '') {
       console.log('Is delete');
-      deleteEvent({
-        payload: {
-          userid: this.props.userid,
-          date: this.props.date
-        }
-      });
+      deleteEvent(this.props.userid, this.props.date);
     } else {
-      setEvent({
-        payload: {
-          userid: this.props.userid,
-          date: this.props.date,
-          type: selectedType
-        }
-      });
+      setEvent(this.props.userid, this.props.date, selectedType);
     }
     this.type = selectedType;
   }
@@ -64,13 +53,7 @@ class Event extends Component {
       return;
     }
 
-    startDrag({
-      payload: {
-        userid: this.props.userid,
-        date: this.props.date
-      }
-    });
-
+    startDrag(this.props.userid, this.props.date);
     this.handleSetType();
   };
 
@@ -134,5 +117,9 @@ export default connect(
 
 Event.propTypes = {
   events: PropTypes.array.isRequired,
-  getEvents: PropTypes.func.isRequired
+  deleteEvent: PropTypes.func.isRequired,
+  setEvent: PropTypes.func.isRequired,
+  setSelectedEventType: PropTypes.func.isRequired,
+  startDrag: PropTypes.func.isRequired,
+  stopDrag: PropTypes.func.isRequired
 };
