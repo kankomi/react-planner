@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
-import { Consumer } from '../../context';
+// import { Consumer } from '../../context';
+import { connect } from 'react-redux';
 
-export default class Employees extends Component {
+class Employees extends Component {
   // shouldComponentUpdate(nextProps, nextState) {
   //   return nextProps.endDate !== this.props.endDate;
   // }
   render() {
+    const { events } = this.props;
     return (
-      <Consumer>
-        {value => {
-          const { planner } = value;
-          return (
-            <div className="emps-table">
-              {planner.map(val => (
-                <div key={val.id} className="emps-col">
-                  {val.user}
-                </div>
-              ))}
-            </div>
-          );
-        }}
-      </Consumer>
+      <div className="emps-table">
+        {events.map(val => (
+          <div key={val.id} className="emps-col">
+            {val.user}
+          </div>
+        ))}
+      </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  events: state.event.events
+});
+
+export default connect(mapStateToProps)(Employees);
