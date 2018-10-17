@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import NavBar from './components/layout/NavBar';
 
 import './styles/css/App.css';
 
@@ -12,12 +13,13 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="App container mt-2">
-          <Planner startDate="2018-01-01" endDate="2018-05-31" locale="de" />
-          <Planner startDate="2018-01-01" endDate="2018-01-31" locale="en" />
-
-          <ButtonMenu />
-        </div>
+        <React.Fragment>
+          <NavBar />
+          <div className="p-2">
+            <Planner startDate="2018-01-01" endDate="2018-05-31" locale="de" />
+            <ButtonMenu />
+          </div>
+        </React.Fragment>
       </Provider>
     );
   }
