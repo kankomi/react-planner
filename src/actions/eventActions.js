@@ -3,7 +3,6 @@ import axios from 'axios';
 
 export const getEvents = () => async dispatch => {
   const res = await axios.get('/testdata.json');
-  console.log(res.data);
   dispatch({
     type: GET_EVENTS,
     payload: res.data.events

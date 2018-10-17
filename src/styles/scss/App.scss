@@ -115,6 +115,10 @@ body {
       padding: 8px;
     }
 
+    .holiday {
+      background-color: lightcoral;
+    }
+
     .event {
       @extend %fixed-cell;
 
@@ -145,6 +149,7 @@ body {
     &.active {
       box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
       border-color: rgba(0, 123, 255, 0.25);
+      font-weight: bold;
     }
   }
 
