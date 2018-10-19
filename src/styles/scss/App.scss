@@ -65,7 +65,7 @@ body {
     display: inline-flex;
     flex-direction: column;
     padding-top: 151px;
-    width: 200px;
+    max-width: 200px;
 
     border-left: 1px solid $table-border-color;
     border-top: 1px solid $table-border-color;
@@ -73,7 +73,7 @@ body {
 
     .emps-col {
       border-bottom: 1px solid $table-border-color;
-      padding: 5px;
+      padding: 5px 15px 5px 5px;
 
       &:first-child {
         border-top: 1px solid $table-border-color;
@@ -156,6 +156,7 @@ body {
 
   button {
     margin: 2px;
+    padding: 5px;
 
     &.active {
       box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
