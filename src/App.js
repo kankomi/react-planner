@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './components/layout/NavBar';
 
 import './styles/css/App.css';
 
-import Planner from './components/Planner/Planner';
-import ButtonMenu from './components/layout/ButtonMenu';
+import PlannerPage from './components/pages/PlannerPage';
+import LoginPage from './components/pages/LoginPage';
+
 import store from './store';
 
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <React.Fragment>
-          <NavBar />
-          <div className="p-2">
-            <Planner startDate="2018-01-01" endDate="2018-05-31" locale="de" />
-            <ButtonMenu />
-          </div>
-        </React.Fragment>
+        <Router>
+          <React.Fragment>
+            <NavBar />
+            <Switch>
+              <Route exact path="/" component={PlannerPage} />
+              <Route exact path="/login" component={LoginPage} />
+            </Switch>
+          </React.Fragment>
+        </Router>
       </Provider>
     );
   }
