@@ -15,7 +15,7 @@ class Month extends Component {
     const divStyle = { gridColumn: 'span ' + this.props.days };
     return (
       <div className="month" style={divStyle}>
-        {this.props.name}
+        <div className="month-name">{this.props.name}</div>
       </div>
     );
   }
@@ -32,7 +32,53 @@ class Calendar extends Component {
     this.endDate = moment(this.props.endDate);
 
     this.months = this.generateMonths();
+
+    // the currently active month column
+    this.currentMonth = 0;
   }
+
+  componentDidMount() {
+    let cal = document.querySelector('.calendar-table');
+    if (cal) {
+      cal.addEventListener('scroll', this.onscroll);
+    }
+  }
+
+  componentWillUnmount() {
+    let cal = document.querySelector('.calendar-table');
+    if (cal) {
+      cal.removeEventListener('scroll', this.onscroll);
+    }
+  }
+
+  onscroll = () => {
+    let months = document.querySelectorAll('.month-name');
+    let month = months[this.currentMonth];
+    let monthParent = month.parentElement;
+    let boundingRight =
+      document.querySelector('.emps-table').getBoundingClientRect().right + 10;
+
+    month.style.cssText = `position: fixed !important; left: ${boundingRight}px !important;`;
+
+    // if we are at the end of a month column, just align the text right
+    // to make a smooth transition
+    if (
+      month.getBoundingClientRect().right + 10 >
+      monthParent.getBoundingClientRect().right
+    ) {
+      month.style.cssText = 'text-align: right';
+    }
+
+    // check if we are in the next month column
+    if (month.getBoundingClientRect().right < boundingRight) {
+      month = months[++this.currentMonth];
+    } else if (monthParent.getBoundingClientRect().left + 10 > boundingRight) {
+      month.style.cssText = 'text-align: left';
+
+      if (this.currentMonth > 0) this.currentMonth--;
+      month = months[this.currentMonth];
+    }
+  };
 
   generateMonths() {
     let months = [];
