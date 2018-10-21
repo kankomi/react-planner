@@ -38,7 +38,7 @@ class Button extends Component {
 }
 
 const mapStateToPropTypes = state => ({
-  dragDrop: state.dragDrop
+  dragDrop: state.root.dragDrop
 });
 
 const mapDispatchToProps = dispatch => ({

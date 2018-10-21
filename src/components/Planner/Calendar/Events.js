@@ -2,32 +2,59 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import business from 'moment-business';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
+
 // import { Consumer } from '../../../context';
 import PropTypes from 'prop-types';
 import Event from './Event';
-import { getEvents } from '../../../actions/eventActions';
+// import { getEvents } from '../../../actions/eventActions';
 
 class Events extends Component {
   startedDragging = false;
-  componentDidMount() {
-    this.props.getEvents();
-  }
-  renderEvents() {
+
+  getEventForUser = (userid, date) => {
+    const { events } = this.props;
+
+    if (!events) {
+      return null;
+    }
+
+    let retEvent = null;
+    events.forEach(event => {
+      if (userid === event.user.id && date.isSame(event.date.toDate())) {
+        retEvent = event;
+        return;
+      }
+    });
+
+    return retEvent;
+  };
+
+  render() {
     let days = [];
     let idx = 0;
     let row = 5; // starting at row 5
-    const { events } = this.props;
+    const { users } = this.props;
 
-    events.forEach(employee => {
+    if (!users) {
+      return days;
+    }
+
+    users.forEach(user => {
       let date = moment(this.props.startDate);
       while (date.isSameOrBefore(this.props.endDate)) {
         if (business.isWeekDay(date)) {
+          const event = this.getEventForUser(user.id, date);
+
           days.push(
             <Event
               key={idx++}
-              userid={employee.id}
-              date={date.format('DD.MM.YYYY')}
+              userid={user.id}
+              date={date.toDate()}
               row={row}
+              type={event ? event.type : ''}
+              eventid={event ? event.id : ''}
             />
           );
         }
@@ -35,24 +62,20 @@ class Events extends Component {
       }
       row++;
     });
-    return days;
-  }
 
-  render() {
-    return this.renderEvents();
+    return days;
   }
 }
 
-const mapStateToProps = state => ({
-  events: state.event.events
-});
-
-export default connect(
-  mapStateToProps,
-  { getEvents }
-)(Events);
-
 Events.propTypes = {
-  events: PropTypes.array.isRequired,
-  getEvents: PropTypes.func.isRequired
+  firestore: PropTypes.object.isRequired,
+  events: PropTypes.array
 };
+
+export default compose(
+  firestoreConnect(['events', 'users']),
+  connect((state, props) => ({
+    events: state.firestore.ordered.events,
+    users: state.firestore.ordered.users
+  }))
+)(Events);

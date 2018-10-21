@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
+
 import PropTypes from 'prop-types';
 import { setEvent, deleteEvent } from '../../../actions/eventActions';
 import {
@@ -11,20 +14,78 @@ import {
 class Event extends Component {
   constructor(props) {
     super(props);
-    this.type = '';
+    this.state = { type: props.type, previousType: '', eventid: props.eventid };
   }
 
-  //   shouldComponentUpdate(nextProps, nextState) {
-  //     if (nextState !== null && nextState.type !== this.type)
-  //       console.log('updating event');
-  //     return nextState !== null && nextState.type !== this.type;
-  //     // return true;
-  //   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.type !== this.state.type) {
+      this.setState({
+        type: nextProps.type,
+        previousType: nextProps.type,
+        eventid: nextProps.eventid
+      });
+    }
+  }
+
+  sendEvent = () => {
+    const { firestore } = this.props;
+    console.log('sending event');
+    const event = {
+      type: this.state.type,
+      user: firestore.doc(`users/${this.props.userid}`),
+      date: this.props.date
+    };
+
+    if (this.state.eventid) {
+      if (this.state.type === '') {
+        firestore
+          .delete({ collection: 'events', doc: this.state.eventid })
+          .then(() => {
+            this.setState({
+              ...this.state,
+              previousType: this.state.type,
+              eventid: ''
+            });
+          })
+          .catch(e => {
+            this.setState({ type: this.state.previousType });
+          });
+      } else {
+        firestore
+          .update({ collection: 'events', doc: this.state.eventid }, event)
+          .then(() => {
+            this.setState({
+              ...this.state,
+              previousType: this.state.type
+            });
+          })
+          .catch(e => {
+            this.setState({ type: this.state.previousType });
+          });
+      }
+    } else {
+      firestore
+        .add({ collection: 'events' }, event)
+        .then(e => {
+          this.setState({
+            ...this.state,
+            previousType: this.state.type,
+            eventid: e.id
+          });
+        })
+        .catch(e => {
+          this.setState({ type: this.state.previousType });
+        });
+    }
+  };
 
   handleSetType() {
     const { deleteEvent, setEvent } = this.props;
     const { selectedType } = this.props.dragDrop;
     if (selectedType === null) {
+      return;
+    }
+    if (selectedType === this.state.type) {
       return;
     }
 
@@ -34,7 +95,11 @@ class Event extends Component {
     } else {
       setEvent(this.props.userid, this.props.date, selectedType);
     }
-    this.type = selectedType;
+
+    this.setState(
+      { type: selectedType, previousType: this.state.type },
+      this.sendEvent
+    );
   }
 
   mouseUpHandler = () => {
@@ -54,7 +119,7 @@ class Event extends Component {
     }
 
     startDrag(this.props.userid, this.props.date);
-    this.handleSetType();
+    // this.handleSetType();
   };
 
   mouseEnterHandler = () => {
@@ -64,59 +129,41 @@ class Event extends Component {
       return;
     }
 
-    // this.type = this.props.events.selectedType;
+    // this.state.type = this.props.events.selectedType;
     // this.setState({ type: this.props.events.selectedType });
 
     this.handleSetType();
   };
 
-  getEvent() {
-    this.type = '';
-    this.props.events.forEach(user => {
-      if (user.id === this.props.userid) {
-        user.events.forEach(event => {
-          if (event.date === this.props.date) {
-            // console.log(`got event ${event.type}`);
-            if (event.type === undefined) {
-              console.log(`event type is undefiend for date ${event.date}`);
-              return;
-            }
-            this.type = event.type;
-            return;
-          }
-        });
-      }
-    });
-  }
-
   render() {
-    this.getEvent();
     return (
       <div
-        className={'event ' + this.type.toLocaleLowerCase()}
+        className={'event ' + this.state.type.toLocaleLowerCase()}
         style={{ gridRowStart: this.props.row }}
         onMouseUp={this.mouseUpHandler.bind(this)}
         onMouseDown={this.mouseDownHandler.bind(this)}
         onMouseEnter={this.mouseEnterHandler.bind(this)}
       >
-        {this.type}
+        {this.state.type}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  events: state.event.events,
-  dragDrop: state.dragDrop
-});
-
-export default connect(
-  mapStateToProps,
-  { deleteEvent, setEvent, setSelectedEventType, startDrag, stopDrag }
+export default compose(
+  firestoreConnect(),
+  connect((state, props) => ({
+    dragDrop: state.root.dragDrop,
+    ...{ deleteEvent, setEvent, setSelectedEventType, startDrag, stopDrag }
+  }))
 )(Event);
 
+Event.contextTypes = {
+  store: PropTypes.object
+};
+
 Event.propTypes = {
-  events: PropTypes.array.isRequired,
+  // events: PropTypes.array.isRequired,
   deleteEvent: PropTypes.func.isRequired,
   setEvent: PropTypes.func.isRequired,
   setSelectedEventType: PropTypes.func.isRequired,

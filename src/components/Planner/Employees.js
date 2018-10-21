@@ -1,23 +1,37 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
 
 class Employees extends Component {
   render() {
-    const { events } = this.props;
-    return (
-      <div className="emps-table">
-        {events.map(val => (
-          <div key={val.id} className="emps-col">
-            {val.user}
-          </div>
-        ))}
-      </div>
-    );
+    console.log(this.props);
+    const { users } = this.props;
+    if (users) {
+      return (
+        <div className="emps-table">
+          {users.map(user => (
+            <div key={user.id} className="emps-col">
+              {user.firstName} {user.lastName}
+            </div>
+          ))}
+        </div>
+      );
+    } else {
+      return <div className="emps-table" />;
+    }
   }
 }
 
-const mapStateToProps = state => ({
-  events: state.event.events
-});
+Employees.propTypes = {
+  firestore: PropTypes.object.isRequired,
+  users: PropTypes.array
+};
 
-export default connect(mapStateToProps)(Employees);
+export default compose(
+  firestoreConnect([{ collection: 'users' }]), // or { collection: 'users' }
+  connect((state, props) => ({
+    users: state.firestore.ordered.users
+  }))
+)(Employees);
