@@ -8,6 +8,7 @@ import './styles/css/App.css';
 
 import PlannerPage from './components/pages/PlannerPage';
 import LoginPage from './components/pages/LoginPage';
+import NotFoundPage from './components/pages/NotFoundPage';
 
 import store from './store';
 
@@ -21,6 +22,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={PlannerPage} />
               <Route exact path="/login" component={LoginPage} />
+              <Route component={NotFoundPage} />
             </Switch>
           </React.Fragment>
         </Router>
